@@ -1,0 +1,79 @@
+/**
+ * @class Ext.ux.Printer.BaseRenderer
+ * @author Ed Spencer
+ * Abstract base renderer class. Don't use this directly, use a subclass instead
+ */
+Ext.ux.Printer.BaseRenderer = function() {
+  
+};
+
+Ext.ux.Printer.BaseRenderer.prototype = {
+  /**
+   * Prints the component
+   * @param {Ext.Component} component The component to print
+   */
+  print: function(component) {
+    //open up a new printing window, write to it, print it and close
+    var win = window.open('', String.format("print-{0}-{1}", component.getXType(), component.id));
+    
+    win.document.write(this.generateHTML(component));
+    win.document.close();
+    
+    win.print();
+    win.close();
+  },
+  
+  /**
+   * Generates the HTML Markup which wraps whatever this.generateBody produces
+   * @param {Ext.Component} component The component to generate HTML for
+   * @return {String} An HTML fragment to be placed inside the print window
+   */
+  generateHTML: function(component) {
+    return new Ext.XTemplate(
+      '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+      '<html>',
+        '<head>',
+          '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />',
+          '<link href="' + this.stylesheetPath + '" rel="stylesheet" type="text/css" media="screen,print" />',
+          '<title>' + this.getTitle(component) + '</title>',
+        '</head>',
+        '<body>',
+          this.generateBody(component),
+        '</body>',
+      '</html>'
+    ).apply(this.prepareData(component));
+  },
+  
+  /**
+   * Returns the HTML that will be placed into the print window. This should produce HTML to go inside the
+   * <body> element only, as <head> is generated in the print function
+   * @param {Ext.Component} component The component to render
+   * @return {String} The HTML fragment to place inside the print window's <body> element
+   */
+  generateBody: Ext.emptyFn,
+  
+  /**
+   * Prepares data suitable for use in an XTemplate from the component 
+   * @param {Ext.Component} component The component to acquire data from
+   * @return {Array} An empty array (override this to prepare your own data)
+   */
+  prepareData: function(component) {
+    return [];
+  },
+  
+  /**
+   * Returns the title to give to the print window
+   * @param {Ext.Component} component The component to be printed
+   * @return {String} The window title
+   */
+  getTitle: function(component) {
+    return typeof component.getTitle == 'function' ? component.getTitle() : (component.title || "Printing");
+  },
+  
+  /**
+   * @property stylesheetPath
+   * @type String
+   * The path at which the print stylesheet can be found (defaults to '/stylesheets/print.css')
+   */
+  stylesheetPath: '/stylesheets/print.css'
+};

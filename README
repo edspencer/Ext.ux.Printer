@@ -1,0 +1,18 @@
+Ext.ux.Printer is a small library that provides a generic way of printing Ext Components (Grids, Trees, etc).
+
+Use it like this:
+
+Ext.ux.Printer.print(someGrid);
+Ext.ux.Printer.print(someTree);
+
+Each of the above examines the component you pass to the print function, and if a suitable printer has been created
+for it, the component is printed by opening a new window, writing some print-friendly HTML to it, and calling the 
+window's print function.
+
+Currently supported components are:
+
+Ext.grid.GridPanel
+Ext.tree.ColumnTreePanel
+
+To add support for another Component type, simply subclass Ext.ux.Printer.BaseRenderer (see the existing renderers for examples),
+and register it with Ext.ux.Printer.registerRenderer('somextype', Ext.ux.Printer.SomeComponentRenderer).
