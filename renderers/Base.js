@@ -3,9 +3,7 @@
  * @author Ed Spencer
  * Abstract base renderer class. Don't use this directly, use a subclass instead
  */
-Ext.ux.Printer.BaseRenderer = function() {
-  
-};
+Ext.ux.Printer.BaseRenderer = function() {};
 
 Ext.ux.Printer.BaseRenderer.prototype = {
   /**

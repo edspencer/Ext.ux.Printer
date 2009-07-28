@@ -1,19 +1,20 @@
 /**
  * @class GetIt.GridPrinter
  * @author Ed Spencer (edward@domine.co.uk)
- * Helper class to easily print the contents of a grid. Will open a new window with a table where the first row
- * contains the headings from your column model, and with a row for each item in your grid's store. When formatted
- * with appropriate CSS it should look very similar to a default grid. If renderers are specified in your column
- * model, they will be used in creating the table. Override headerTpl and bodyTpl to change how the markup is generated
+ * Class providing a common way of printing Ext.Components. Ext.ux.Printer.print delegates the printing to a specialised
+ * renderer class (each of which subclasses Ext.ux.Printer.BaseRenderer), based on the xtype of the component.
+ * Each renderer is registered with an xtype, and is used if the component to print has that xtype.
  * 
- * Usage:
+ * See the files in the renderers directory to customise or to provide your own renderers.
+ * 
+ * Usage example:
  * 
  * var grid = new Ext.grid.GridPanel({
  *   colModel: //some column model,
  *   store   : //some store
  * });
  * 
- * Ext.ux.GridPrinter.print(grid);
+ * Ext.ux.Printer.print(grid);
  * 
  */
 Ext.ux.Printer = function() {
