@@ -37,18 +37,16 @@ Ext.ux.Printer.GridPanelRenderer = Ext.extend(Ext.ux.Printer.BaseRenderer, {
     var data = [];
     grid.store.data.each(function(item) {
       var convertedData = {};
-
-      //apply renderers from column model
-      for (var key in item.data) {
-        var value = item.data[key];
       
+      //apply renderers from column model
+      Ext.iterate(item.data, function(key, value) {
         Ext.each(columns, function(column) {
           if (column.dataIndex == key) {
             convertedData[key] = column.renderer ? column.renderer(value) : value;
             return false;
           }
         }, this);
-      }
+      });
     
       data.push(convertedData);
     });
