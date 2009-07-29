@@ -45,6 +45,7 @@ Ext.ux.Printer.GridPanelRenderer = Ext.extend(Ext.ux.Printer.BaseRenderer, {
         Ext.each(columns, function(column) {
           if (column.dataIndex == key) {
             convertedData[key] = column.renderer ? column.renderer(value) : value;
+            return false;
           }
         }, this);
       }
@@ -61,7 +62,13 @@ Ext.ux.Printer.GridPanelRenderer = Ext.extend(Ext.ux.Printer.BaseRenderer, {
    * @return {Array} The array of grid columns
    */
   getColumns: function(grid) {
-    return grid.getColumnModel().config;
+    var columns = [];
+    
+  	Ext.each(grid.getColumnModel().config, function(col) {
+  	  if (col.hidden != true) columns.push(col);
+  	}, this);
+  	
+  	return columns;
   },
   
   /**
