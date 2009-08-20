@@ -161,9 +161,9 @@ Ext.ux.Printer.BaseRenderer.prototype = {
   /**
    * @property stylesheetPath
    * @type String
-   * The path at which the print stylesheet can be found (defaults to '/stylesheets/print.css')
+   * The path at which the print stylesheet can be found (defaults to 'stylesheets/print.css')
    */
-  stylesheetPath: '/stylesheets/print.css'
+  stylesheetPath: 'stylesheets/print.css'
 };
 
 /**
