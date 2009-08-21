@@ -42,7 +42,7 @@ Ext.ux.Printer.GridPanelRenderer = Ext.extend(Ext.ux.Printer.BaseRenderer, {
       Ext.iterate(item.data, function(key, value) {
         Ext.each(columns, function(column) {
           if (column.dataIndex == key) {
-            convertedData[key] = column.renderer ? column.renderer(value) : value;
+            convertedData[key] = column.renderer ? column.renderer(value, null, item) : value;
             return false;
           }
         }, this);
