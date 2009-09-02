@@ -9,5 +9,4 @@
 
 Printer.js
 renderers/Base.js
-renderers/GridPanel.js
-renderers/ColumnTree.js
+renderers/*.js

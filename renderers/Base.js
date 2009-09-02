@@ -1,18 +1,20 @@
 /**
  * @class Ext.ux.Printer.BaseRenderer
+ * @extends Object
  * @author Ed Spencer
  * Abstract base renderer class. Don't use this directly, use a subclass instead
  */
-Ext.ux.Printer.BaseRenderer = function() {};
-
-Ext.ux.Printer.BaseRenderer.prototype = {
+Ext.ux.Printer.BaseRenderer = Ext.extend(Object, {
   /**
    * Prints the component
    * @param {Ext.Component} component The component to print
    */
   print: function(component) {
-    //open up a new printing window, write to it, print it and close
-    var win = window.open('', String.format("print-{0}-{1}", component.getXType(), component.id));
+    var name = component && component.getXType
+             ? String.format("print-{0}-{1}", component.getXType(), component.id)
+             : "print";
+             
+    var win = window.open('', name);
     
     win.document.write(this.generateHTML(component));
     win.document.close();
@@ -56,7 +58,7 @@ Ext.ux.Printer.BaseRenderer.prototype = {
    * @return {Array} An empty array (override this to prepare your own data)
    */
   prepareData: function(component) {
-    return [];
+    return component;
   },
   
   /**
@@ -74,4 +76,4 @@ Ext.ux.Printer.BaseRenderer.prototype = {
    * The path at which the print stylesheet can be found (defaults to 'stylesheets/print.css')
    */
   stylesheetPath: 'stylesheets/print.css'
-};
+});
