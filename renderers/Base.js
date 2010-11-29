@@ -18,7 +18,22 @@ Ext.ux.Printer.BaseRenderer = Ext.extend(Object, {
     
     win.document.write(this.generateHTML(component));
     win.document.close();
-    
+
+    this.doPrintOnStylesheetLoad.defer(10, this, [win]);
+  },
+  
+  /**
+   * check if style is loaded and do print afterwards
+   * 
+   * @param {window} win
+   */
+  doPrintOnStylesheetLoad: function(win) {
+    var el = win.document.getElementById('csscheck'),
+        comp = el.currentStyle || getComputedStyle(el, null);
+    if (comp.display !== "none") {
+      this.doPrintOnStylesheetLoad.defer(10, this, [win]);
+      return;
+    }
     win.print();
     win.close();
   },
@@ -34,10 +49,11 @@ Ext.ux.Printer.BaseRenderer = Ext.extend(Object, {
       '<html>',
         '<head>',
           '<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />',
-          '<link href="' + this.stylesheetPath + '" rel="stylesheet" type="text/css" media="screen,print" />',
+          '<link href="' + this.stylesheetPath + '?' + new Date().getTime() + '" rel="stylesheet" type="text/css" media="screen,print" />',
           '<title>' + this.getTitle(component) + '</title>',
         '</head>',
         '<body>',
+          '<div id="csscheck"></div>',
           this.generateBody(component),
         '</body>',
       '</html>'
