@@ -21,3 +21,11 @@ table td {
   border-width: 1px;
   border-color: #ededed;
 }
+
+@media print {
+   thead {display: table-header-group;}
+}
+
+#csscheck {
+	display: none;
+}
